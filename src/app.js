@@ -33,9 +33,9 @@ import { setTextFilter } from './actions/filters';
 import getVisibleExpenses from './selectors/expenses';
 
 const store = configureStore();
-store.dispatch(addExpense({description: "Water bill", amount: 45000  }));
+/*store.dispatch(addExpense({description: "Water bill", amount: 45000  }));
 store.dispatch(addExpense({description: "Gas bill", createdAt: 1000 }));
-store.dispatch(addExpense({description: "Rent", amount: 109500  }));
+store.dispatch(addExpense({description: "Rent", amount: 109500  }));*/
 //store.dispatch(setTextFilter('water'));
 
 
