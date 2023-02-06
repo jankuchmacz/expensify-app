@@ -3,7 +3,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const { webpack } = require('webpack');
+//const { webpack } = require('webpack');
 //console.log(path.join(__dirname, 'public'))
 
 //it is variabble that stores environment (production, development etc)
