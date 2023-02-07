@@ -1,6 +1,6 @@
 import configureMockStore from 'redux-mock-store';
 import thunk from "redux-thunk";
-import { startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses } from "../../actions/expenses";
+import { startAddExpense, addExpense, editExpense, removeExpense, setExpenses, startSetExpenses, startRemoveExpense } from "../../actions/expenses";
 import expenses from "../fixtures/expenses";
 import database from '../../firebase/firebase';
 
@@ -23,13 +23,27 @@ beforeEach((done)=>{
 });
 
 test ('should setup remove expense action object', () => {
-    const action = removeExpense({id: '123abc'});
+    const action = removeExpense('123abc');
     expect(action).toEqual({
         type: 'REMOVE_EXPENSE',
         id: '123abc'
     })
     //two objects are never the same so we cant compare them with ===
     //we have to use toEqual() method to compare objects
+});
+test('should remove expense from firebase', (done)=>{
+    const store = createMockStore({});
+    store.dispatch(startRemoveExpense({id: expenses[0].id})).then(()=>{
+        const actions = store.getActions();
+        expect(actions[0]).toEqual({
+            type: 'REMOVE_EXPENSE',
+            id: expenses[0].id
+        });
+        return database.ref(`expenses/${actions[0].id}`).once('value')
+    }).then((snapshot)=>{
+        expect(snapshot.val()).toBeFalsy();
+        done();
+    });
 });
 test('should setup edit expense action object', () => {
     const action = editExpense('123abc', {note: 'New note value'});
@@ -121,6 +135,7 @@ test('should fetch expenses from firebase', (done)=>{
     })
 
 })
+
 /*test('should setup add expense action object with default values', () => {
     const action = addExpense();
     expect(action).toEqual({

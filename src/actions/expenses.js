@@ -34,10 +34,19 @@ export const startAddExpense = (expnseData = {})=>{
     };
 }
 //Remove expense
-export const removeExpense = ({id} = {}) => {
+export const removeExpense = (id) => {
     return { 
         type: 'REMOVE_EXPENSE',
         id: id
+    }
+}
+export const startRemoveExpense = ({id} = {}) =>{
+    return (dispatch)=>{
+        return database.ref(`expenses/${id}`).remove().then(()=>{
+            dispatch(removeExpense(id))
+        }).catch((e)=>{
+            console.log('Error during fetching data from DB', e);
+        })
     }
 }
 
