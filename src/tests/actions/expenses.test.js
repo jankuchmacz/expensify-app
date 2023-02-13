@@ -62,7 +62,7 @@ test('should edit expense from firebase', (done)=>{
                 id:expenses[2].id,
                 updates: {note: 'Test note'}
         });
-        return  database.ref(`expenses/${actions[0].id}/note`).once('value');
+        return database.ref(`expenses/${actions[0].id}/note`).once('value');
     }).then((snapashot)=>{
         expect(snapashot.val()).toBe('Test note');
         done();
