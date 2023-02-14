@@ -14,7 +14,7 @@ export const addExpense = (expense)=>{
     }
 }
 export const startAddExpense = (expnseData = {})=>{
-    return (dispatch) => {
+    return (dispatch, getState) => {
         //destructuring
         const {
             description = '', note='', amount = 0, createdAt = 0
@@ -25,7 +25,8 @@ export const startAddExpense = (expnseData = {})=>{
             amount,
             createdAt
         }
-        return database.ref('expenses').push(expense).then((ref)=>{
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses`).push(expense).then((ref)=>{
            dispatch(addExpense({
                 id: ref.key,
                 ...expense
@@ -41,8 +42,9 @@ export const removeExpense = (id) => {
     }
 }
 export const startRemoveExpense = ({id} = {}) =>{
-    return (dispatch)=>{
-        return database.ref(`expenses/${id}`).remove().then(()=>{
+    return (dispatch, getState)=>{
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).remove().then(()=>{
             dispatch(removeExpense(id))
         }).catch((e)=>{
             console.log('Error during fetching data from DB', e);
@@ -59,8 +61,9 @@ export const editExpense = (id, updates) => {
     }
 }
 export const startEditExpense = (id, updates)=>{
-    return (dispatch)=>{
-        return database.ref(`expenses/${id}`).update({
+    return (dispatch, getState)=>{
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses/${id}`).update({
             ...updates
         }).then(()=>{
             dispatch(editExpense(id, updates));
@@ -73,8 +76,9 @@ export const setExpenses = (expenses)=>({
     expenses: expenses
 });
 export const startSetExpenses = () =>{
-    return (dispatch)=>{
-        return database.ref('expenses').once('value').then((snapashot)=>{
+    return (dispatch, getState)=>{
+        const uid = getState().auth.uid;
+        return database.ref(`users/${uid}/expenses`).once('value').then((snapashot)=>{
             const expenses=[];
             snapashot.forEach((childSnapshot)=>{
                 expenses.push({
