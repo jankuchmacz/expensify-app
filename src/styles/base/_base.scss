@@ -1,11 +1,19 @@
+*{
+    box-sizing: border-box;
+    //it is very usefull when we specify height of the element
+    //when box-sizing is border-box then in height which we specified padding and border is included
+}
+
 //rem - by default 1rem=16px
 html {
     font-size: 62.5%;
     //62,5% * 16px = 10px Thanks to it 1rem is translated to 10px
 }
 body {
+    color: $dark-grey;
     font-family: Helvetica, Arial, sans-serif;
     font-size: $m-size;
+    line-height: 1.6;
 }
 button{
     cursor: pointer;

@@ -32,6 +32,7 @@ import { startSetExpenses } from './actions/expenses';
 import getVisibleExpenses from './selectors/expenses';
 import {firebase} from './firebase/firebase';
 import {login, logout} from './actions/auth';
+import LoadingPage from './components/LoadingPage';
 //import './playground/promises';
 
 
@@ -62,7 +63,7 @@ const renderApp = ()=>{
     }
 }
 
-ReactDOM.render(<p>Loading...</p>, document.querySelector('#app'));
+ReactDOM.render(<LoadingPage/>, document.querySelector('#app'));
 
 firebase.auth().onAuthStateChanged((user)=>{
     //this function runs when auth state changes (login or logout)
@@ -82,8 +83,8 @@ firebase.auth().onAuthStateChanged((user)=>{
         renderApp();
         history.push('/');
     }
-
 })
+
 
 
 
